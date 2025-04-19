@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poetsen+One&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title">Music Player</h1>
+      <div class="container-img">
+        <img src="assets/background.jpg" alt="" class="bg-player" />
+      </div>
+      <div class="container-audio">
+        <h1 class="title-song">Little Bit Better</h1>
+        <audio controls class="player-audio" id="player-audio">
+          <source
+            src="album/Caleb Hearn & ROSIE - Little Bit Better (Official Lyric Video).mp3"
+            type="audio/mpeg" />
+        </audio>
+      </div>
+      <h1 class="title-song">Little Bit Better - Caleb Hearn, Rosie</h1>
+      <div class="container-progress">
+        <div class="start" id="start">00:00</div>
+        <input type="range" id="progress" min="0" max="100" value="0" />
+        <div class="end" id="end">00:00</div>
+      </div>
+      <div class="container-button">
+        <div class="container-controller">
+          <button class="prev">
+            <img src="assets/skip_previous.svg" alt="" />
+          </button>
+          <button class="pause-play" id="pause-play">
+            <img src="assets/play_arrow.svg" id="play-img" alt="" />
+            <img src="assets/pause.svg" id="pause-img" alt="" />
+          </button>
+          <button class="">
+            <img src="assets/skip_next.svg" alt="" />
+          </button>
+        </div>
+        <div class="container-volume">
+          <div class="box-volume" id="box-volume">
+            <input
+              type="range"
+              id="range-volume"
+              min="0"
+              max="1.0"
+              value="1.0"
+              step="0.1" />
+          </div>
+          <button class="" type="button" id="volume-btn">
+            <img src="assets/volume.svg" alt="" id="volume" class="volume" />
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="js/player.js"></script>
+  </body>
+</html>
