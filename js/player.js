@@ -7,13 +7,30 @@ const end = document.getElementById("end");
 const volume = document.getElementById("range-volume");
 const boxvolume = document.getElementById("box-volume");
 const volumebtn = document.getElementById("volume-btn");
-console.log(volume);
+const titleSong = document.getElementById("title-song");
+const nexbtn = document.getElementById("next");
+const prevbtn = document.getElementById("prev");
+
 let isPlaying = false;
 if (isPlaying) {
   pauseimg.style.display = "none";
 }
-window.addEventListener("DOMContentLoaded", () => {
-  audio.load();
+let indexSong = 0;
+let mysong = [];
+window.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const electronApi = await window.electronAPI;
+    // console.log(electronApi);
+    if (!electronApi) {
+      console.error("Electron API tidak tersedia");
+    }
+    const songs = await window.electronAPI.getAudioFiles();
+    mysong = songs;
+    audio.src = songs[indexSong].path;
+    audio.load();
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 function formatTime(time) {
@@ -26,20 +43,69 @@ function formatTime(time) {
   return `${minute}:${seconds}`;
 }
 audio.addEventListener("loadedmetadata", () => {
+  const title = mysong[indexSong].name.replace(".mp3", "");
+  titleSong.textContent = title;
   end.textContent = formatTime(audio.duration);
-  // console.log(Math.floor(audio.currentTime));
+  console.log(audio.src);
   progress.max = audio.duration;
-  console.log(audio.volume);
-  // progress.value = audio.currenTime;
 });
 audio.addEventListener("timeupdate", () => {
   start.textContent = formatTime(audio.currentTime);
-  // console.log(audio.currentTime);
   progress.value = audio.currentTime;
 });
 
+audio.addEventListener("play", () => {
+  playimg.style.display = "none";
+  pauseimg.style.display = "block";
+  console.log(indexSong);
+  // isPlaying = false;
+  // console.log("from event play", isPlaying);
+});
+audio.addEventListener("pause", () => {
+  pauseimg.style.display = "none";
+  playimg.style.display = "block";
+  // isPlaying = true;
+  // console.log("from event pause", isPlaying);
+});
+
+audio.addEventListener("ended", () => {
+  isPlaying = false;
+  if (indexSong + 1 === mysong.length) {
+    indexSong = 0;
+    audio.src = mysong[indexSong].path;
+    audio.play();
+    return;
+  }
+  indexSong += 1;
+  audio.src = mysong[indexSong].path;
+  audio.play();
+  console.log(indexSong);
+});
+
+nexbtn.addEventListener("click", () => {
+  if (indexSong + 1 === mysong.length) {
+    indexSong = 0;
+    audio.src = mysong[indexSong].path;
+    audio.play();
+    return;
+  }
+  indexSong += 1;
+  audio.src = mysong[indexSong].path;
+  audio.play();
+});
+
+prevbtn.addEventListener("click", () => {
+  if (indexSong === 0) {
+    indexSong = mysong.length - 1;
+    audio.src = mysong[indexSong].path;
+    audio.play();
+    return;
+  }
+  indexSong -= 1;
+  audio.src = mysong[indexSong].path;
+  audio.play();
+});
 progress.addEventListener("change", () => {
-  console.log(progress.value);
   audio.currentTime = progress.value;
 });
 function playMusic() {
@@ -50,17 +116,14 @@ function playMusic() {
 const playButton = document.getElementById("pause-play");
 playButton.addEventListener("click", () => {
   if (!isPlaying) {
-    console.log("Now Playing");
-    playimg.style.display = "none";
-    pauseimg.style.display = "block";
     isPlaying = true;
     audio.play();
+    // console.log("from event pause", isPlaying);
     return;
   }
-  audio.pause();
-  pauseimg.style.display = "none";
-  playimg.style.display = "block";
   isPlaying = false;
+  audio.pause();
+  // console.log("from event play ng", isPlaying);
 });
 
 volume.addEventListener("input", () => {

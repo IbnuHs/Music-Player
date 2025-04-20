@@ -20,12 +20,12 @@
       <div class="container-audio">
         <h1 class="title-song">Little Bit Better</h1>
         <audio controls class="player-audio" id="player-audio">
-          <source
-            src="album/Caleb Hearn & ROSIE - Little Bit Better (Official Lyric Video).mp3"
-            type="audio/mpeg" />
+          <source src="" type="audio/mpeg" />
         </audio>
       </div>
-      <h1 class="title-song">Little Bit Better - Caleb Hearn, Rosie</h1>
+      <h1 class="title-song" id="title-song">
+        <!-- Little Bit Better - Caleb Hearn, Rosie -->
+      </h1>
       <div class="container-progress">
         <div class="start" id="start">00:00</div>
         <input type="range" id="progress" min="0" max="100" value="0" />
@@ -33,14 +33,14 @@
       </div>
       <div class="container-button">
         <div class="container-controller">
-          <button class="prev">
+          <button type="button" class="prev" id="prev">
             <img src="assets/skip_previous.svg" alt="" />
           </button>
-          <button class="pause-play" id="pause-play">
+          <button type="button" class="pause-play" id="pause-play">
             <img src="assets/play_arrow.svg" id="play-img" alt="" />
             <img src="assets/pause.svg" id="pause-img" alt="" />
           </button>
-          <button class="">
+          <button type="button" class="" id="next">
             <img src="assets/skip_next.svg" alt="" />
           </button>
         </div>
