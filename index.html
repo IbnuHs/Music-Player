@@ -32,6 +32,11 @@
         <div class="end" id="end">00:00</div>
       </div>
       <div class="container-button">
+        <div class="container-listbtn">
+          <button type="button" id="list-btn">
+            <img src="assets/list.svg" alt="" />
+          </button>
+        </div>
         <div class="container-controller">
           <button type="button" class="prev" id="prev">
             <img src="assets/skip_previous.svg" alt="" />
@@ -58,6 +63,13 @@
             <img src="assets/volume.svg" alt="" id="volume" class="volume" />
           </button>
         </div>
+      </div>
+      <div class="listmusic" id="listmusic">
+        <button type="button" class="close-btn" id="close-btn">
+          <img src="assets/close.svg" alt="" />
+        </button>
+        <h1 class="title-list-container">List Music</h1>
+        <div class="container-music" id="container-music"></div>
       </div>
     </div>
     <script src="js/player.js"></script>

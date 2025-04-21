@@ -10,6 +10,7 @@ const volumebtn = document.getElementById("volume-btn");
 const titleSong = document.getElementById("title-song");
 const nexbtn = document.getElementById("next");
 const prevbtn = document.getElementById("prev");
+const containermusic = document.getElementById("container-music");
 
 let isPlaying = false;
 if (isPlaying) {
@@ -17,6 +18,12 @@ if (isPlaying) {
 }
 let indexSong = 0;
 let mysong = [];
+function chooseMusic(path, index) {
+  audio.src = path;
+  indexSong = index;
+  audio.play();
+  return;
+}
 window.addEventListener("DOMContentLoaded", async () => {
   try {
     const electronApi = await window.electronAPI;
@@ -28,6 +35,19 @@ window.addEventListener("DOMContentLoaded", async () => {
     mysong = songs;
     audio.src = songs[indexSong].path;
     audio.load();
+    // console.log(mysong);
+    songs.forEach((i, index) => {
+      const container = document.createElement("div");
+      container.classList.add("song-box");
+      const titlesongs = document.createElement("h1");
+      titlesongs.classList.add("title-list");
+      titlesongs.textContent = i.name;
+      container.appendChild(titlesongs);
+      container.addEventListener("click", () => {
+        chooseMusic(i.path, index);
+      });
+      containermusic.appendChild(container);
+    });
   } catch (error) {
     console.error(error);
   }
@@ -140,4 +160,21 @@ volumebtn.addEventListener("click", () => {
   boxvolume.style.visibility = "visible";
   visible = true;
   return;
+});
+
+// Display list songs
+const songList = document.getElementById("listmusic");
+const closebtn = document.getElementById("close-btn");
+closebtn.addEventListener("click", () => {
+  songList.style.height = "0px";
+  songList.style.overflow = "hidden";
+  songList.style.padding = "0px";
+});
+
+const listbtn = document.getElementById("list-btn");
+listbtn.addEventListener("click", () => {
+  songList.style.height = "90%";
+  songList.style.overflow = "auto";
+  songList.style.padding = "16px";
+  containermusic.style.overflowY = "scroll";
 });

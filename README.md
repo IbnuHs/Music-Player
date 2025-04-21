@@ -23,5 +23,3 @@ A lightweight cross-platform desktop application built using **Electron**, with 
 - **Node.js (via Electron)** – For accessing system-level APIs
 
 ---
-
-## 📂 Project Structure
