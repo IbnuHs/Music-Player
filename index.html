@@ -14,11 +14,31 @@
   <body>
     <div class="container">
       <h1 class="title">Music Player</h1>
+      <button type="button" title="Add Music" class="add-btn" id="add-btn">
+        <img src="assets/add.svg" alt="" />
+      </button>
+      <!-- Container Form add Music -->
+      <div class="container-form" id="form-music">
+        <button type="button" class="close-btn closeform">
+          <img src="assets/close.svg" alt="" id="close-form" />
+        </button>
+        <form action="">
+          <input type="file" id="upload-input" multiple />
+          <button type="button" class="upload-btn" id="upload-btn">
+            Upload
+          </button>
+
+          <div class="added-music" id="added-music"></div>
+          <div class="addbtn">
+            <button type="submit" class="addmusic">Add Music</button>
+          </div>
+        </form>
+      </div>
       <div class="container-img">
         <img src="assets/background.jpg" alt="" class="bg-player" />
       </div>
       <div class="container-audio">
-        <h1 class="title-song">Little Bit Better</h1>
+        <h1 class="title-song"></h1>
         <audio controls class="player-audio" id="player-audio">
           <source src="" type="audio/mpeg" />
         </audio>

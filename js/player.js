@@ -178,3 +178,51 @@ listbtn.addEventListener("click", () => {
   songList.style.padding = "16px";
   containermusic.style.overflowY = "scroll";
 });
+
+const formadd = document.getElementById("form-music");
+console.log(formadd);
+const addbtn = document.getElementById("add-btn");
+addbtn.addEventListener("click", () => {
+  formadd.style.height = "100%";
+});
+
+const uploadbtn = document.getElementById("upload-btn");
+const inputmusic = document.getElementById("upload-input");
+const containeradded = document.getElementById("added-music");
+uploadbtn.addEventListener("click", () => {
+  inputmusic.click();
+});
+inputmusic.addEventListener("change", e => {
+  const musics = e.target.files;
+  const arrayMusic = Array.from(musics);
+  if (musics) {
+    arrayMusic.forEach((i, index) => {
+      const container = document.createElement("div");
+      container.classList.add("music-added");
+      const title = document.createElement("h1");
+      title.textContent = i.name;
+      const button = document.createElement("button");
+      button.classList.add("delete-added");
+      button.type = "button";
+      const boxbutton = document.createElement("div");
+      boxbutton.appendChild(button);
+      const image = document.createElement("img");
+      image.setAttribute("src", "assets/delete.svg");
+      button.innerHTML = `<img src="assets/delete.svg" alt="" />`;
+      container.appendChild(title);
+      container.appendChild(boxbutton);
+      containeradded.append(container);
+
+      button.addEventListener("click", () => {
+        console.log("tes");
+        arrayMusic.slice(index);
+      });
+    });
+  }
+});
+
+const closeformbtn = document.getElementById("close-form");
+
+closeformbtn.addEventListener("click", () => {
+  formadd.style.height = "0px";
+});
