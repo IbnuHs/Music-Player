@@ -192,11 +192,16 @@ const containeradded = document.getElementById("added-music");
 uploadbtn.addEventListener("click", () => {
   inputmusic.click();
 });
+let aray = [];
 inputmusic.addEventListener("change", e => {
   const musics = e.target.files;
   const arrayMusic = Array.from(musics);
-  if (musics) {
-    arrayMusic.forEach((i, index) => {
+  aray = [...aray, ...arrayMusic];
+  inputmusic.value = "";
+  render();
+  function render() {
+    containeradded.innerHTML = "";
+    aray.forEach((i, index) => {
       const container = document.createElement("div");
       container.classList.add("music-added");
       const title = document.createElement("h1");
@@ -215,7 +220,8 @@ inputmusic.addEventListener("change", e => {
 
       button.addEventListener("click", () => {
         console.log("tes");
-        arrayMusic.slice(index);
+        aray.splice(index, 1);
+        render();
       });
     });
   }
@@ -225,4 +231,14 @@ const closeformbtn = document.getElementById("close-form");
 
 closeformbtn.addEventListener("click", () => {
   formadd.style.height = "0px";
+});
+
+const uploadform = document.getElementById("upload-form");
+uploadform.addEventListener("submit", async e => {
+  e.preventDefault();
+  try {
+    await window.electronAPI.uploadMusic(aray);
+  } catch (error) {
+    console.error(error);
+  }
 });

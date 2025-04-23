@@ -12,5 +12,8 @@
   "description": "",
   "devDependencies": {
     "electron": "^35.1.5"
+  },
+  "dependencies": {
+    "multer": "^1.4.5-lts.2"
   }
 }

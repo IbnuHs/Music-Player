@@ -269,6 +269,7 @@ button .volume img {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   font-family: "Poetson One", sans-serif;
+  z-index: 40;
   height: 0px;
   /* height: 90%; */
   position: absolute;
@@ -280,8 +281,8 @@ button .volume img {
   flex-direction: column;
   gap: 12px;
   justify-content: start;
-  background-color: #272829e5;
-  filter: blur();
+  background-color: #2728299d;
+  backdrop-filter: blur(5px);
   padding: 0px;
   /* padding: 16px; */
   transition: all 300ms ease-in-out;

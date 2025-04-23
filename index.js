@@ -14,18 +14,36 @@ const createWindow = () => {
   win.webContents.openDevTools();
   win.loadFile("index.html");
 };
+const albumpath = path.join(__dirname, "album");
 
+async function albumfolderExist() {
+  try {
+    fs.mkdir(albumpath, { recursive: true });
+  } catch (error) {
+    console.error("Gagal Membuat folder album ", error);
+  }
+}
 app.whenReady().then(() => {
   try {
     createWindow();
     ipcMain.handle("get-music", () => {
-      const albumpath = path.join(__dirname, "album");
       const files = fs.readdirSync(albumpath);
       const audiofiles = files.filter(file => file.endsWith(".mp3"));
       return audiofiles.map(file => ({
         name: file,
         path: path.join(albumpath, file),
       }));
+    });
+
+    ipcMain.handle("upload-music", async (event, filedata) => {
+      albumfolderExist();
+      const savepath = path.join(albumpath, filedata);
+      try {
+        await fs.writeFile(savepath, Buffer.from(filedata.data));
+        return { success: true };
+      } catch (error) {
+        return { success: false, error: error.message };
+      }
     });
   } catch (error) {
     console.error(error);
