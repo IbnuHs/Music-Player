@@ -18,7 +18,7 @@ const albumpath = path.join(__dirname, "album");
 
 async function albumfolderExist() {
   try {
-    fs.mkdir(albumpath, { recursive: true });
+    fs.promises.mkdir(albumpath, { recursive: true });
   } catch (error) {
     console.error("Gagal Membuat folder album ", error);
   }
@@ -35,13 +35,19 @@ app.whenReady().then(() => {
       }));
     });
 
-    ipcMain.handle("upload-music", async (event, filedata) => {
+    ipcMain.handle("upload-music", async (event, { file, buffer }) => {
       albumfolderExist();
-      const savepath = path.join(albumpath, filedata);
+      // console.log(file);
+      // console.log("halo");
+      // console.log(buffer);
+      const savepath = path.join(albumpath, file);
+      console.log(savepath);
       try {
-        await fs.writeFile(savepath, Buffer.from(filedata.data));
+        await fs.promises.writeFile(savepath, Buffer.from(buffer));
+        console.log("Musik Berhasil Ditambahkan");
         return { success: true };
       } catch (error) {
+        console.log("Musik Gagal Ditambahkan karena : ", error);
         return { success: false, error: error.message };
       }
     });

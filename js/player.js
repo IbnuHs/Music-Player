@@ -66,7 +66,7 @@ audio.addEventListener("loadedmetadata", () => {
   const title = mysong[indexSong].name.replace(".mp3", "");
   titleSong.textContent = title;
   end.textContent = formatTime(audio.duration);
-  console.log(audio.src);
+  // console.log(audio.src);
   progress.max = audio.duration;
 });
 audio.addEventListener("timeupdate", () => {
@@ -236,8 +236,19 @@ closeformbtn.addEventListener("click", () => {
 const uploadform = document.getElementById("upload-form");
 uploadform.addEventListener("submit", async e => {
   e.preventDefault();
+  const reader = new FileReader();
   try {
-    await window.electronAPI.uploadMusic(aray);
+    for (const file of aray) {
+      reader.onload = async () => {
+        const buffer = reader.result;
+        // const uintArray = new Uint8Array(buffer);
+        await window.electronAPI.uploadFiles(file.name, buffer);
+        // res;
+      };
+      // console.log(file);
+      reader.readAsArrayBuffer(file);
+    }
+    // console.log(aray);
   } catch (error) {
     console.error(error);
   }
