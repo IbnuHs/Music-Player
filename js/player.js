@@ -228,16 +228,16 @@ inputmusic.addEventListener("change", e => {
 });
 
 const closeformbtn = document.getElementById("close-form");
-
+const loading = document.getElementById("loading");
 closeformbtn.addEventListener("click", () => {
   formadd.style.height = "0px";
 });
-
 const uploadform = document.getElementById("upload-form");
 uploadform.addEventListener("submit", async e => {
   e.preventDefault();
   const reader = new FileReader();
   try {
+    loading.style.display = "flex";
     for (const file of aray) {
       reader.onload = async () => {
         const buffer = reader.result;
@@ -248,6 +248,10 @@ uploadform.addEventListener("submit", async e => {
       // console.log(file);
       reader.readAsArrayBuffer(file);
     }
+    setTimeout(() => {
+      console.log("loading ...");
+    }, 10000);
+    loading.style.display = "hidden";
     // console.log(aray);
   } catch (error) {
     console.error(error);
