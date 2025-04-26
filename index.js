@@ -4,14 +4,14 @@ const fs = require("fs");
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 1000,
+    width: 400,
     height: 600,
     webPreferences: {
       preload: `${__dirname}/preload.js`,
       nodeIntegration: true,
     },
   });
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
   win.loadFile("index.html");
 };
 const albumpath = path.join(__dirname, "album");
@@ -35,15 +35,15 @@ app.whenReady().then(() => {
       }));
     });
 
-    ipcMain.handle("upload-music", async (event, { file, buffer }) => {
+    ipcMain.handle("upload-music", async (event, { fileName, data }) => {
       albumfolderExist();
-      // console.log(file);
-      // console.log("halo");
-      // console.log(buffer);
-      const savepath = path.join(albumpath, file);
-      console.log(savepath);
       try {
-        await fs.promises.writeFile(savepath, Buffer.from(buffer));
+        for (let { name, buffer } of data) {
+          const bufferData = Buffer.from(buffer);
+          const savepath = path.join(__dirname, "album", name);
+          await fs.promises.writeFile(savepath, bufferData);
+          // console.log(bufferData);
+        }
         console.log("Musik Berhasil Ditambahkan");
         return { success: true };
       } catch (error) {

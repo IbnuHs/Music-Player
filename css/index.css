@@ -388,8 +388,10 @@ button .volume img {
 
 .added-music {
   font-family: "Poetson One", sans-serif;
+  /* border: 2px solid red; */
   margin-top: 30px;
   height: 70%;
+  /* position: re; */
   border-radius: 5px;
   background-color: gray;
   display: flex;
@@ -494,12 +496,21 @@ button .volume img {
 }
 
 .loading {
-  display: none;
-  /* display: flex; */
+  visibility: hidden;
+  display: flex;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  /* border: 2px solid red; */
   justify-content: center;
+  background-color: rgba(128, 128, 128, 0.562);
+  backdrop-filter: blur(5px);
   flex-direction: column;
   align-items: center;
   height: 100%;
+  z-index: 100;
 }
 .loading > img {
   margin: auto;

@@ -24,30 +24,38 @@ function chooseMusic(path, index) {
   audio.play();
   return;
 }
+
+const loadMusic = async () => {
+  const electronApi = await window.electronAPI;
+  // console.log(electronApi);
+  if (!electronApi) {
+    console.error("Electron API tidak tersedia");
+  }
+  const songs = await window.electronAPI.getAudioFiles();
+  mysong = songs;
+  audio.src = songs[indexSong].path;
+  audio.load();
+  // console.log(mysong);
+  songs.forEach((i, index) => {
+    const container = document.createElement("div");
+    container.classList.add("song-box");
+    const titlesongs = document.createElement("h1");
+    titlesongs.classList.add("title-list");
+    titlesongs.textContent = i.name;
+    container.appendChild(titlesongs);
+    container.addEventListener("click", () => {
+      chooseMusic(i.path, index);
+    });
+    containermusic.appendChild(container);
+  });
+};
+
 window.addEventListener("DOMContentLoaded", async () => {
   try {
-    const electronApi = await window.electronAPI;
-    // console.log(electronApi);
-    if (!electronApi) {
-      console.error("Electron API tidak tersedia");
+    loadMusic();
+    if (mysong.length === 0) {
+      titleSong.textContent = "Music Is Empty, Added Some Music ...";
     }
-    const songs = await window.electronAPI.getAudioFiles();
-    mysong = songs;
-    audio.src = songs[indexSong].path;
-    audio.load();
-    // console.log(mysong);
-    songs.forEach((i, index) => {
-      const container = document.createElement("div");
-      container.classList.add("song-box");
-      const titlesongs = document.createElement("h1");
-      titlesongs.classList.add("title-list");
-      titlesongs.textContent = i.name;
-      container.appendChild(titlesongs);
-      container.addEventListener("click", () => {
-        chooseMusic(i.path, index);
-      });
-      containermusic.appendChild(container);
-    });
   } catch (error) {
     console.error(error);
   }
@@ -234,25 +242,37 @@ closeformbtn.addEventListener("click", () => {
 });
 const uploadform = document.getElementById("upload-form");
 uploadform.addEventListener("submit", async e => {
+  inputmusic.value = "";
+  loading.style.visibility = "visible";
+  console.log(loading.style.visibility);
   e.preventDefault();
-  const reader = new FileReader();
+  console.log(loading);
+  if (aray.length === 0) {
+    console.log(aray.length);
+    alert("Music is Not Uploaded");
+    loading.style.visibility = "hidden";
+    return;
+  }
+  console.log(aray.length);
+  let bufferArray = [];
   try {
-    loading.style.display = "flex";
     for (const file of aray) {
-      reader.onload = async () => {
-        const buffer = reader.result;
-        // const uintArray = new Uint8Array(buffer);
-        await window.electronAPI.uploadFiles(file.name, buffer);
-        // res;
+      const buffer = await file.arrayBuffer();
+      const uint8 = new Uint8Array(buffer);
+      let databuffer = {
+        name: file.name,
+        buffer: uint8,
       };
-      // console.log(file);
-      reader.readAsArrayBuffer(file);
+      bufferArray.push(databuffer);
+      await window.electronAPI.uploadFiles(file.name, bufferArray);
     }
     setTimeout(() => {
       console.log("loading ...");
-    }, 10000);
-    loading.style.display = "hidden";
-    // console.log(aray);
+      containeradded.innerHTML = "";
+      loading.style.visibility = "hidden";
+      aray = [];
+      loadMusic();
+    }, 2000);
   } catch (error) {
     console.error(error);
   }
