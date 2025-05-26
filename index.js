@@ -4,8 +4,10 @@ const fs = require("fs");
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 400,
+    width: 450,
     height: 600,
+    maxHeight: 700,
+    maxWidth: 450,
     webPreferences: {
       preload: `${__dirname}/preload.js`,
       nodeIntegration: true,

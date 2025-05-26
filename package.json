@@ -1,17 +1,36 @@
 {
   "name": "music-app",
+  "productName": "Music Apps",
   "version": "1.0.0",
   "main": "index.js",
+  "build": {
+    "appId": "com.hasyimdev.musicplayer",
+    "productName": "Music Player",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*"
+    ],
+    "extraResources": [
+      "album/**"
+    ],
+    "win": {
+      "target": "nsis"
+    }
+  },
   "scripts": {
     "start": "node index.js",
     "start:dev": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dist": "electron-builder"
   },
   "author": "ibnu-hs",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "electron": "^35.1.5"
+    "electron": "^35.1.5",
+    "electron-builder": "^26.0.12"
   },
   "dependencies": {
     "multer": "^1.4.5-lts.2"

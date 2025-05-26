@@ -242,11 +242,9 @@ closeformbtn.addEventListener("click", () => {
 });
 const uploadform = document.getElementById("upload-form");
 uploadform.addEventListener("submit", async e => {
+  e.preventDefault();
   inputmusic.value = "";
   loading.style.visibility = "visible";
-  console.log(loading.style.visibility);
-  e.preventDefault();
-  console.log(loading);
   if (aray.length === 0) {
     console.log(aray.length);
     alert("Music is Not Uploaded");
